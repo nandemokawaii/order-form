@@ -1,9 +1,9 @@
 {
   "name": "nandemokawaii.ph",
-  "homepage": "https://nandemokawaii.github.io/",
+  "homepage": "https://nandemokawaii.github.io/order-form/",
   "version": "1.1.0",
   "description": "A simple order form for Nandemokawaii PH",
-  "repository": "https://github.com/nandemokawaii/nandemokawaii.github.io",
+  "repository": "https://github.com/nandemokawaii/order-form",
   "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
