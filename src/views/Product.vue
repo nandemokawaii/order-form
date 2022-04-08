@@ -198,12 +198,14 @@
 <script>
 import RoundButton from "@/components/Buttons/RoundButton.vue";
 import Alert from "@/components/Alerts/Alert.vue";
+import jsonData from "../../data/db.json";
 
 export default {
   name: "shop-page",
   data() {
     return {
-      product: [],
+      product: jsonData.items,
+      cart: jsonData.cart,
       id: this.$route.params.id,
       alertOpen: false,
       alertColor: '',
@@ -214,36 +216,49 @@ export default {
       urlCart: 'http://localhost:3000/cart',
     };
   },
-  created() {
-    fetch(this.urlItems+"/"+ this.id)
-      .then((res) => res.json())
-      .then((data) => (this.product = data))
-      .catch((err) => console.log(err.message));
+  mounted() {
+   
+  this.fetchData()
+    // fetch(this.urlItems+"/"+ this.id)
+    //   .then((res) => res.json())
+    //   .then((data) => (this.product = data))
+    //   .catch((err) => console.log(err.message));
   },
   methods: {
+    fetchData(){
+        this.product = this.product.find(item => item.id == this.id);
+    },
     addToCart: function () {
       this.alertOpen = true;
       setTimeout(() => {
         this.alertOpen = false;
       }, 1000);
       
-      fetch(this.urlCart, {
-        method: "POST",
-        body: JSON.stringify({
-          title: this.product.title,
-          qty: this.quantity,
-          price: this.price,
-          src: this.product.img,
-          id: this.id,
-        }),
-
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
+      this.cart.push({
+        title: this.product.title,
+        qty: this.quantity,
+        price: this.price,
+        src: this.product.img,
+        id: this.id,
       })
-        .then((response) => response.json())
-        .then((json) => console.log(json))
-        .catch((err) => console.log(err.message));
+      console.log(this.cart)
+      // fetch(this.urlCart, {
+      //   method: "POST",
+      //   body: JSON.stringify({
+      //     title: this.product.title,
+      //     qty: this.quantity,
+      //     price: this.price,
+      //     src: this.product.img,
+      //     id: this.id,
+      //   }),
+
+      //   headers: {
+      //     "Content-type": "application/json; charset=UTF-8",
+      //   },
+      // })
+      //   .then((response) => response.json())
+      //   .then((json) => console.log(json))
+      //   .catch((err) => console.log(err.message));
     },
     changeQuantity(a) {
       if (a === "+") {

@@ -49,12 +49,14 @@
 import CardProduct from "@/components/Cards/CardProduct.vue";
 import Spinner from "@/components/Spinners/Spinner.vue";
 import RoundButton from "@/components/Buttons/RoundButton.vue";
-import getItems from "@/composables/getItems";
+// import getItems from "@/composables/getItems";
+import jsonData from "../../data/db.json";
 
 export default {
   name: "shop-page",
   data() {
     return {
+      items: jsonData.items,
       urlItems: "http://localhost:3000/items",
       urlItemsByCategory: "http://localhost:3000/items?category=",
       urlCart: "http://localhost:3000/cart",
@@ -66,17 +68,28 @@ export default {
     RoundButton,
   },
   setup(){
-    const { items, error } = getItems()    
-    return { items, error }
+    // const { items, error } = getItems()    
+    // return { items, error }
   },
   methods: {
-    listByCategory(a) {
-      this.url = a != undefined ? this.urlItemsByCategory+a : this.urlItems
-      fetch(this.url)
-      .then((res) => res.json())
-      .then((data) => (this.items = data))
-      .catch((err) => console.log(err.message));
+    listByCategory(a) { 
+      this.items = jsonData.items
+      
+      if (a != undefined){
+        this.items = this.items.filter(function (item) {
+          return item.category.match(a)
+        })
+      }
+
+      return this.items
     },
+    // listByCategory(a) {
+    //   this.url = a != undefined ? this.urlItemsByCategory+a : this.urlItems
+    //   fetch(this.url)
+    //   .then((res) => res.json())
+    //   .then((data) => (this.items = data))
+    //   .catch((err) => console.log(err.message));
+    // },
   },
 };
 </script>

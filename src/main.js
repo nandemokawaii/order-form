@@ -37,6 +37,7 @@ import Product from "@/views/Product.vue";
 import Cart from "@/views/Cart.vue";
 import Checkout from "@/views/Checkout.vue";
 import CheckoutComplete from "@/views/CheckoutComplete.vue";
+import NotFound from "@/views/NotFound.vue";
 
 // routes
 
@@ -127,7 +128,11 @@ const routes = [
     path: '/',
     component: Index,
   },
-  { path: '/:pathMatch(.*)*', redirect: '/' },
+  {
+    path: '/404',
+    component: NotFound,
+  },
+  { path: '/:pathMatch(.*)*', redirect: '/404' },
 ];
 
 const router = createRouter({
